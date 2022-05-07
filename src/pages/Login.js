@@ -48,14 +48,14 @@ const Login = () => {
                   <img
                     src={settingCtx.logo}
                     alt=""
-                    height={30}
                     className="logo-light mx-auto"
+                    style={{ maxHeight: "100px", maxWidth: "200px" }}
                   />
                   <img
                     src={settingCtx.logo}
                     alt=""
-                    height={30}
                     className="logo-dark mx-auto"
+                    style={{ maxHeight: "100px", maxWidth: "200px" }}
                   />
                 </Link>
                 <p className="text-muted mt-2 mb-4"></p>

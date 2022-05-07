@@ -23,11 +23,8 @@ function App() {
   const settingCtx = useContext(SettingContext);
   const settingRef = useRef(settingCtx);
 
-  const {
-    loading: getSettingLoading,
-    setLoading: setSettingLoading,
-    sendRequest: getSettingRequest,
-  } = useHttp();
+  const { loading: getSettingLoading, sendRequest: getSettingRequest } =
+    useHttp();
 
   useEffect(() => {
     getSettingRequest(
@@ -38,10 +35,9 @@ function App() {
       (response) => {
         settingRef.current.setSetting(response.data);
         document.getElementById("favicon").href = response.data.logo;
-        setSettingLoading(false);
       }
     );
-  }, [getSettingRequest, setSettingLoading]);
+  }, [getSettingRequest]);
 
   return (
     <Fragment>

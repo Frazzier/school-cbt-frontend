@@ -14,16 +14,10 @@ const Profile = () => {
   const emailInputRef = useRef(authCtx.user.email);
   const passwordInputRef = useRef();
   const passwordConfirmationInputRef = useRef();
-  const {
-    loading: updateProfileLoading,
-    setLoading: setUpdateProfileLoading,
-    sendRequest: updateProfileRequest,
-  } = useHttp();
-  const {
-    loading: changePasswordLoading,
-    setLoading: setChangePasswordLoading,
-    sendRequest: changePasswordRequest,
-  } = useHttp();
+  const { loading: updateProfileLoading, sendRequest: updateProfileRequest } =
+    useHttp();
+  const { loading: changePasswordLoading, sendRequest: changePasswordRequest } =
+    useHttp();
 
   const fileChangeHandler = (event) => {
     if (event.target.files.length === 1) {
@@ -36,19 +30,14 @@ const Profile = () => {
 
     const enteredName = nameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
-    const avatar = document.querySelector('input[type="file"]').files[0];
-
-    const updateProfile = (data) => {
-      authCtx.updateProfile(data.user);
-      toast.success(data.message);
-      setUpdateProfileLoading(false);
-    };
+    const profilePicture =
+      document.querySelector('input[type="file"]').files[0];
 
     const data = new FormData();
     data.append("name", enteredName);
     data.append("email", enteredEmail);
-    if (avatar) {
-      data.append("avatar", avatar);
+    if (profilePicture) {
+      data.append("profile_picture", profilePicture);
     }
 
     updateProfileRequest(
@@ -58,7 +47,10 @@ const Profile = () => {
         headers: { "content-type": "multipart/form-data" },
         data: data,
       },
-      updateProfile
+      (response) => {
+        authCtx.updateProfile(response.user);
+        toast.success(response.message);
+      }
     );
   };
 
@@ -69,13 +61,6 @@ const Profile = () => {
     const enteredPasswordConfirmation =
       passwordConfirmationInputRef.current.value;
 
-    const changePassword = (data) => {
-      toast.success(data.message);
-      passwordInputRef.current.value = "";
-      passwordConfirmationInputRef.current.value = "";
-      setChangePasswordLoading(false);
-    };
-
     changePasswordRequest(
       {
         method: "PATCH",
@@ -85,9 +70,14 @@ const Profile = () => {
           password_confirmation: enteredPasswordConfirmation,
         },
       },
-      changePassword
+      (response) => {
+        toast.success(response.message);
+        passwordInputRef.current.value = "";
+        passwordConfirmationInputRef.current.value = "";
+      }
     );
   };
+
   return (
     <Layout title="Profil">
       <div className="row">
@@ -97,7 +87,7 @@ const Profile = () => {
               <div className="col-12 col-lg-4 text-center">
                 <img
                   src={
-                    authCtx.user.avatar_url ||
+                    authCtx.user.profile_picture_url ||
                     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
                   }
                   className="rounded-circle avatar-xxxl img-thumbnail mt-3"
@@ -117,10 +107,13 @@ const Profile = () => {
                       <input
                         type="file"
                         className="custom-file-input"
-                        id="avatar"
+                        id="profile_picture"
                         onChange={fileChangeHandler}
                       />
-                      <label className="custom-file-label" htmlFor="avatar">
+                      <label
+                        className="custom-file-label"
+                        htmlFor="profile_picture"
+                      >
                         {fileName}
                       </label>
                     </div>

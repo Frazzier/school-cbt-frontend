@@ -9,6 +9,7 @@ axios.defaults.baseURL = process.env.REACT_APP_BASE_API_URL;
 axios.defaults.withCredentials = false;
 
 export const useHttp = (params) => {
+  const cancelTokenSource = useRef(axios.CancelToken.source());
   let history = useHistory();
   const authCtx = useRef(useContext(AuthContext));
   if (authCtx.current.isLoggedIn) {
@@ -20,15 +21,26 @@ export const useHttp = (params) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const sendRequest = useCallback(async (params, applyResponse) => {
-    setLoading(true);
-    try {
-      const result = await axios.request(params);
-      applyResponse(result.data);
-    } catch (error) {
-      setError(error.response);
-    }
-  }, []);
+  const sendRequest = useCallback(
+    async (params, applyResponse) => {
+      setLoading(true);
+      try {
+        const result = await axios.request(
+          Object.assign(params, {
+            cancelToken: cancelTokenSource.current.token,
+          })
+        );
+        applyResponse(result.data);
+        setLoading(false);
+      } catch (error) {
+        if (error.message !== "request aborted") {
+          setError(error.response);
+          setLoading(false);
+        }
+      }
+    },
+    [cancelTokenSource]
+  );
 
   const toastErrors = useCallback((error) => {
     var errors = error.data.errors ? error.data.errors : error.data;
@@ -44,7 +56,6 @@ export const useHttp = (params) => {
     if (error) {
       switch (error.status) {
         case 422:
-          setLoading(false);
           toastErrors(error);
           break;
 
@@ -53,14 +64,12 @@ export const useHttp = (params) => {
             authCtx.current.logout();
             toast.error("Mohon Login Untuk Melanjutkan !");
           } else {
-            setLoading(false);
             toastErrors(error);
           }
           break;
 
         case 403:
           toast.error("Akses anda ditolak !");
-          setLoading(false);
           break;
 
         case 404:
@@ -69,17 +78,23 @@ export const useHttp = (params) => {
 
         case 405:
           toast.error("Aksi tidak dikenali !");
-          setLoading(false);
           break;
 
         default:
           console.log(error);
-          setLoading(false);
           break;
       }
     }
   }, [error, authCtx, toastErrors, history]);
-  return { error, loading, setLoading, sendRequest };
+
+  useEffect(() => {
+    const cancelSignal = cancelTokenSource.current;
+    return () => {
+      cancelSignal.cancel("request aborted");
+    };
+  }, [cancelTokenSource]);
+
+  return { error, loading, sendRequest };
 };
 
 export default useHttp;

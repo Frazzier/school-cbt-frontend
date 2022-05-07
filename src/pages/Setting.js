@@ -8,8 +8,8 @@ import useHttp from "../hooks/use-http";
 const Setting = () => {
   const settingCtx = useContext(SettingContext);
   const settingRef = useRef(settingCtx);
-  const { loading, setLoading, sendRequest } = useHttp();
-  const [appName, setAppName] = useState(settingCtx.app_name);
+  const { loading, sendRequest } = useHttp();
+  const [appName, setAppName] = useState(settingCtx.appName);
   const [fileName, setFileName] = useState("Choose file...");
 
   const fileChangeHandler = (event) => {
@@ -40,7 +40,6 @@ const Setting = () => {
         document.getElementById("favicon").href = response.data.logo;
         settingRef.current.setSetting(response.data);
         toast.success("Pengaturan aplikasi berhasil diperbaharui !");
-        setLoading(false);
       }
     );
   };
@@ -88,7 +87,7 @@ const Setting = () => {
                   name="name"
                   className="form-control"
                   placeholder="Masukan Nama"
-                  defaultValue={settingCtx.app_name}
+                  defaultValue={settingCtx.appName}
                   onChange={(e) => {
                     setAppName(e.target.value);
                   }}

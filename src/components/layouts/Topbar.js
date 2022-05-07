@@ -44,7 +44,7 @@ const Topbar = (props) => {
             <img
               alt="profile-pic"
               src={
-                authCtx.user.avatar_url ||
+                authCtx.user.profile_picture_url ||
                 "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII="
               }
               className="rounded-circle"
