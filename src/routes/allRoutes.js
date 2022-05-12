@@ -11,7 +11,7 @@ const Profile = React.lazy(() => import("../pages/Profile"));
 const AuthRoutes = [
   { path: "/dashboard", component: Dashboard },
   { path: "/profile", component: Profile },
-  { path: "/setting", component: Setting },
+  { path: "/setting", component: Setting, roles: ["admin"] },
 ];
 
 const GuestRoutes = [

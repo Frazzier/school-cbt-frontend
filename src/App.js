@@ -53,6 +53,7 @@ function App() {
               <AuthMiddleware
                 auth={authCtx.isLoggedIn}
                 roles={roles}
+                role={authCtx.user.role}
                 exact
                 path={path}
                 component={component}
