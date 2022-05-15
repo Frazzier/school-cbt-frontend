@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 
 const AuthMiddleware = ({
   component: Component,
@@ -7,12 +9,13 @@ const AuthMiddleware = ({
   role,
   ...rest
 }) => {
+  const authCtx = useContext(AuthContext);
   return (
     <Route
       {...rest}
       render={(props) =>
-        auth === true ? (
-          !roles || roles.includes(role) ? (
+        authCtx.isLoggedIn ? (
+          !roles || roles.includes(authCtx.user.role) ? (
             <Component {...props} />
           ) : (
             <Redirect

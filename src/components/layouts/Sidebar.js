@@ -1,6 +1,15 @@
+import { useContext, useRef } from "react";
 import { NavLink } from "react-router-dom";
 
+import AuthContext from "../../store/auth-context";
+
+import Admin from "./sidebar/Admin";
+import Teacher from "./sidebar/Teacher";
+import Student from "./sidebar/Student";
+
 const Sidebar = () => {
+  const authCtx = useRef(useContext(AuthContext));
+
   return (
     <div className="left-side-menu pt-0">
       <div className="slimscroll-menu">
@@ -13,13 +22,9 @@ const Sidebar = () => {
                 <span> Dashboard </span>
               </NavLink>
             </li>
-            <li className="menu-title">Pengaturan</li>
-            <li>
-              <NavLink to="/setting" activeClassName="active">
-                <i className="mdi mdi-cog" />
-                <span> Pengaturan Aplikasi </span>
-              </NavLink>
-            </li>
+            {authCtx.current.user.role === "admin" && <Admin></Admin>}
+            {authCtx.current.user.role === "teacher" && <Teacher></Teacher>}
+            {authCtx.current.user.role === "student" && <Student></Student>}
           </ul>
         </div>
         <div className="clearfix" />

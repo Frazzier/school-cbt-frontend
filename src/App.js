@@ -8,6 +8,7 @@ import React, {
 import { Switch, Route, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import PageLoading from "./components/layouts/PageLoading";
 import AuthContext from "./store/auth-context";
@@ -51,9 +52,7 @@ function App() {
             </Route>
             {AuthRoutes.map(({ path, component, roles }, key) => (
               <AuthMiddleware
-                auth={authCtx.isLoggedIn}
                 roles={roles}
-                role={authCtx.user.role}
                 exact
                 path={path}
                 component={component}

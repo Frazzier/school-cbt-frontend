@@ -22,7 +22,7 @@ export const useHttp = (params) => {
   const [loading, setLoading] = useState(false);
 
   const sendRequest = useCallback(
-    async (params, applyResponse) => {
+    async (params, applyResponse, loadingAfterApply = true) => {
       setLoading(true);
       try {
         const result = await axios.request(
@@ -31,7 +31,9 @@ export const useHttp = (params) => {
           })
         );
         applyResponse(result.data);
-        setLoading(false);
+        if (loadingAfterApply) {
+          setLoading(false);
+        }
       } catch (error) {
         if (error.message !== "request aborted") {
           setError(error.response);
@@ -94,7 +96,7 @@ export const useHttp = (params) => {
     };
   }, [cancelTokenSource]);
 
-  return { error, loading, sendRequest };
+  return { error, loading, sendRequest, setLoading };
 };
 
 export default useHttp;

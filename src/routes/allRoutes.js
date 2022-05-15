@@ -8,10 +8,13 @@ const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const Setting = React.lazy(() => import("../pages/Setting"));
 const Profile = React.lazy(() => import("../pages/Profile"));
 
+const DepartmentIndex = React.lazy(() => import("../pages/department/Index"));
+
 const AuthRoutes = [
   { path: "/dashboard", component: Dashboard },
   { path: "/profile", component: Profile },
   { path: "/setting", component: Setting, roles: ["admin"] },
+  { path: "/department", component: DepartmentIndex, roles: ["admin"] },
 ];
 
 const GuestRoutes = [

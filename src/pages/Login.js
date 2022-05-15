@@ -32,7 +32,8 @@ const Login = () => {
       (response) => {
         authRef.current.login(response.token, response.user);
         toast.success(response.message);
-      }
+      },
+      false
     );
   };
 
