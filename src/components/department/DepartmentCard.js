@@ -2,12 +2,14 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const DepartmentCard = (props) => {
+  const { editHandler } = props;
   const MySwal = withReactContent(Swal);
   const { department } = props;
 
   const deleteHandler = (department_id) => {
     MySwal.fire({
       title: <p>Hapus Data ?</p>,
+      html: <p>Kelas dan murid yang ada di jurusan akan ikut dihapus !</p>,
       showCancelButton: true,
       showConfirmButton: true,
       confirmButtonColor: "red",
@@ -35,7 +37,12 @@ const DepartmentCard = (props) => {
             <p>Jumlah Kelas : {department.class_count}</p>
           </div>
           <div className="col-12 col-md-6 col-lg-4 align-self-center text-center">
-            <button className="btn btn-success btn-sm m-1">
+            <button
+              className="btn btn-success btn-sm m-1"
+              onClick={() => {
+                editHandler(department);
+              }}
+            >
               <i className="mdi mdi-square-edit-outline"></i>
             </button>
             <button

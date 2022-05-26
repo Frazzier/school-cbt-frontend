@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import useHttp from "../../hooks/use-http";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -6,40 +6,24 @@ import CardSkeleton from "./CardSkeleton";
 import DepartmentCard from "./DepartmentCard";
 
 const List = (props) => {
+  const { fetchDepartmentsLoading, departments, setDepartments, editHandler } =
+    props;
   const MySwal = withReactContent(Swal);
-  const {
-    loading: fetchDepartmentsLoading,
-    sendRequest: fetchDepartmentsRequest,
-  } = useHttp();
   const { sendRequest: deleteDepartmentRequest } = useHttp();
-  const [departments, setDepartments] = useState([]);
-
-  useEffect(() => {
-    fetchDepartmentsRequest(
-      {
-        method: "GET",
-        url: "/department",
-      },
-      (response) => {
-        setDepartments(response.departments);
-      }
-    );
-  }, [fetchDepartmentsRequest]);
-
   const deleteHandler = (department_id) => {
     deleteDepartmentRequest(
       {
         method: "DELETE",
         url: `/department/${department_id}`,
       },
-      (data) => {
+      (response) => {
         setDepartments(
           departments.filter((e) => {
             return e.id !== department_id;
           })
         );
         MySwal.fire({
-          title: <p>Data berhasil dihapus !</p>,
+          title: <p>{response.message}</p>,
           icon: "success",
         });
       }
@@ -63,6 +47,7 @@ const List = (props) => {
               department={department}
               deleteHandler={deleteHandler}
               key={department.id}
+              editHandler={editHandler}
             />
           );
         })}
