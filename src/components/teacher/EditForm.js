@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import useHttp from "../../hooks/use-http";
 import { toast } from "react-toastify";
 import BarLoader from "react-spinners/BarLoader";
@@ -8,6 +8,11 @@ const AddForm = (props) => {
   const nameRef = useRef();
   const emailRef = useRef();
   const { loading, sendRequest: editTeacherRequest } = useHttp();
+
+  useEffect(() => {
+    nameRef.current.value = editTeacher.user.name;
+    emailRef.current.value = editTeacher.user.email;
+  }, [editTeacher]);
 
   const editTeacherHandler = (event) => {
     event.preventDefault();

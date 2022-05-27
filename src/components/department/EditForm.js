@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import useHttp from "../../hooks/use-http";
 import { toast } from "react-toastify";
 import BarLoader from "react-spinners/BarLoader";
@@ -8,6 +8,11 @@ const AddForm = (props) => {
   const nameRef = useRef();
   const abbreviationRef = useRef();
   const { loading, sendRequest: editDepartmentRequest } = useHttp();
+
+  useEffect(() => {
+    nameRef.current.value = editDepartment.name;
+    abbreviationRef.current.value = editDepartment.abbreviation;
+  }, [editDepartment]);
 
   const editDepartmentHandler = (event) => {
     event.preventDefault();
