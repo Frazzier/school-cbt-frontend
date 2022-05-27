@@ -9,6 +9,10 @@ const Admin = () => {
           <i className="mdi mdi-office-building" />
           <span> Jurusan </span>
         </NavLink>
+        <NavLink to="/teacher" activeClassName="active">
+          <i className="mdi mdi-account-multiple" />
+          <span> Guru </span>
+        </NavLink>
       </li>
       <li className="menu-title">Pengaturan</li>
       <li>

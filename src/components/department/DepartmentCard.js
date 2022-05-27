@@ -8,7 +8,7 @@ const DepartmentCard = (props) => {
 
   const deleteHandler = (department_id) => {
     MySwal.fire({
-      title: <p>Hapus Data ?</p>,
+      title: <p>Hapus Jurusan ?</p>,
       html: <p>Kelas dan murid yang ada di jurusan akan ikut dihapus !</p>,
       showCancelButton: true,
       showConfirmButton: true,
