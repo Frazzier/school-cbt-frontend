@@ -58,50 +58,51 @@ const TeacherCard = (props) => {
   };
 
   return (
-    <div className="col-12 col-lg-6" key={teacher.id}>
-      <div
-        className="card border-primary mb-1"
-        style={{ borderLeft: "15px solid", borderRadius: "10px" }}
-      >
-        <div className="card-body text-primary row">
-          <div className="col-12 col-md-4 col-lg-2">
-            <img
-              className="d-flex mr-3 rounded-circle avatar-md mx-auto"
-              alt="64x64"
-              src={teacher.user.profile_picture_url}
-            />
+    <div className="col-12 col-md-6 col-lg-4">
+      <div className="text-center card-box">
+        <div>
+          <img
+            src={teacher.user.profile_picture_url}
+            className="rounded-circle avatar-xl img-thumbnail mb-2"
+            alt="profile"
+          />
+          <div className="text-left">
+            <p className="text-muted font-13">
+              <strong>Nama :</strong>
+              <span className="ml-2">{teacher.user.name}</span>
+            </p>
+            <p className="text-muted font-13">
+              <strong>Email :</strong>
+              <span className="ml-2">{teacher.user.email}</span>
+            </p>
           </div>
-          <div className="col-12 col-md-4 col-lg-7">
-            <h4 className="card-title text-primary">
-              Nama : {teacher.user.name}
-            </h4>
-            <p>Email : {teacher.user.email}</p>
-          </div>
-          <div className="col-12 col-md-4 col-lg-3 align-self-center text-center">
-            <button
-              className="btn btn-success btn-sm m-1"
-              onClick={() => {
-                editHandler(teacher);
-              }}
-            >
-              <i className="mdi mdi-square-edit-outline"></i>
-            </button>
-            <button
-              className="btn btn-warning btn-sm m-1"
-              onClick={() => {
-                resetPassword(teacher.user.id);
-              }}
-            >
-              <i className="mdi mdi-key"></i>
-            </button>
-            <button
-              className="btn btn-danger btn-sm m-1"
-              onClick={() => {
-                deleteHandler(teacher.id);
-              }}
-            >
-              <i className="mdi mdi-delete"></i>
-            </button>
+          <div className="row">
+            <div className="col-12 align-self-center text-center">
+              <button
+                className="btn btn-success btn-sm m-1"
+                onClick={() => {
+                  editHandler(teacher);
+                }}
+              >
+                <i className="mdi mdi-square-edit-outline"></i>
+              </button>
+              <button
+                className="btn btn-warning btn-sm m-1"
+                onClick={() => {
+                  resetPassword(teacher.user.id);
+                }}
+              >
+                <i className="mdi mdi-key"></i>
+              </button>
+              <button
+                className="btn btn-danger btn-sm m-1"
+                onClick={() => {
+                  deleteHandler(teacher.id);
+                }}
+              >
+                <i className="mdi mdi-delete"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

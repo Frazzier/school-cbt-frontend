@@ -24,7 +24,7 @@ const DepartmentCard = (props) => {
   };
 
   return (
-    <div className="col-12 col-lg-6" key={department.id}>
+    <div className="col-12 col-lg-6">
       <div
         className="card border-primary mb-1"
         style={{ borderLeft: "15px solid", borderRadius: "10px" }}
