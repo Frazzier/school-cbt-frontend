@@ -64,13 +64,20 @@ const TeacherCard = (props) => {
         style={{ borderLeft: "15px solid", borderRadius: "10px" }}
       >
         <div className="card-body text-primary row">
-          <div className="col-12 col-md-6 col-lg-8">
+          <div className="col-12 col-md-4 col-lg-2">
+            <img
+              className="d-flex mr-3 rounded-circle avatar-md mx-auto"
+              alt="64x64"
+              src={teacher.user.profile_picture_url}
+            />
+          </div>
+          <div className="col-12 col-md-4 col-lg-7">
             <h4 className="card-title text-primary">
               Nama : {teacher.user.name}
             </h4>
             <p>Email : {teacher.user.email}</p>
           </div>
-          <div className="col-12 col-md-6 col-lg-4 align-self-center text-center">
+          <div className="col-12 col-md-4 col-lg-3 align-self-center text-center">
             <button
               className="btn btn-success btn-sm m-1"
               onClick={() => {
