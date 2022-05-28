@@ -61,7 +61,7 @@ const AddForm = (props) => {
                 <div className="col-12 col-md-6 col-lg-5">
                   <input
                     type="text"
-                    className="form-control form-control-sm"
+                    className="form-group form-control form-control-sm"
                     placeholder="Nama"
                     ref={nameRef}
                     defaultValue={editTeacher.user.name}
@@ -70,7 +70,7 @@ const AddForm = (props) => {
                 <div className="col-12 col-md-4 col-lg-5">
                   <input
                     type="email"
-                    className="form-control form-control-sm"
+                    className="form-group form-control form-control-sm"
                     placeholder="Email"
                     ref={emailRef}
                     defaultValue={editTeacher.user.email}
