@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
-const Admin = () => {
+const Student = () => {
   return <Fragment></Fragment>;
 };
 
-export default Admin;
+export default Student;
