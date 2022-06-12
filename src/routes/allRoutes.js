@@ -11,6 +11,7 @@ const Profile = React.lazy(() => import("../pages/Profile"));
 const DepartmentIndex = React.lazy(() => import("../pages/department/Index"));
 const TeacherIndex = React.lazy(() => import("../pages/teacher/Index"));
 const ClassIndex = React.lazy(() => import("../pages/class/Index"));
+const ClassShow = React.lazy(() => import("../pages/class/Show"));
 
 const AuthRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -19,6 +20,11 @@ const AuthRoutes = [
   { path: "/department", component: DepartmentIndex, roles: ["admin"] },
   { path: "/teacher", component: TeacherIndex, roles: ["admin"] },
   { path: "/class", component: ClassIndex, roles: ["admin", "teacher"] },
+  {
+    path: "/class/:class_id",
+    component: ClassShow,
+    roles: ["admin", "teacher"],
+  },
 ];
 
 const GuestRoutes = [
@@ -26,6 +32,7 @@ const GuestRoutes = [
   { path: "/register", component: Register, guestOnly: true },
   { path: "/forgot-password", component: ForgotPassword, guestOnly: true },
   { path: "/not-found", component: NotFound, guestOnly: false },
+  { path: "*", component: NotFound, guestOnly: false },
 ];
 
 export { AuthRoutes, GuestRoutes };

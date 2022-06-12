@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 const Admin = () => {
   return (
     <Fragment>
+      <li className="menu-title">Master Data</li>
       <li>
         <NavLink to="/department" activeClassName="active">
           <i className="mdi mdi-office-building" />

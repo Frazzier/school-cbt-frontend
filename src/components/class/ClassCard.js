@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -44,6 +45,12 @@ const ClassCard = (props) => {
             <p>Jumlah Siswa : {class_.student_count}</p>
           </div>
           <div className="col-12 col-md-6 col-lg-4 align-self-center text-center">
+            <Link
+              to={`/class/${class_.id}`}
+              className="btn btn-info btn-sm m-1"
+            >
+              <i className="mdi mdi-information-outline" />
+            </Link>
             <button
               className="btn btn-success btn-sm m-1"
               onClick={() => {

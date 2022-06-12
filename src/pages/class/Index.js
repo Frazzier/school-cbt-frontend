@@ -8,9 +8,8 @@ import EditForm from "../../components/class/EditForm";
 const Index = () => {
   const [editClass, setEditClass] = useState([]);
   const [classes, setClasses] = useState([]);
-  useEffect(() => {
-    console.log(classes);
-  }, [classes]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
   const [departments, setDepartments] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [formType, setFormType] = useState("add");
@@ -23,20 +22,38 @@ const Index = () => {
   const { loading: fetchTeachersLoading, sendRequest: fetchTeachersRequest } =
     useHttp();
 
-  const fetchClasses = useCallback(() => {
-    fetchClassesRequest(
-      {
-        method: "GET",
-        url: "/class",
-        params: {
-          limit: -1,
+  const fetchClasses = useCallback(
+    (type, fetchPage = 0) => {
+      fetchClassesRequest(
+        {
+          method: "GET",
+          url: "/class",
+          params: {
+            limit: 10,
+            page: fetchPage + 1,
+          },
         },
-      },
-      (response) => {
-        setClasses(response.classes.data);
-      }
-    );
-  }, [fetchClassesRequest]);
+        (response) => {
+          if (type === "init") {
+            setClasses(response.classes.data);
+          } else {
+            setClasses((oldClasses) => [
+              ...oldClasses.concat(response.classes.data),
+            ]);
+          }
+          setPage(response.classes.current_page);
+          if (response.classes.next_page_url === null) {
+            setHasMore(false);
+          }
+        }
+      );
+    },
+    [fetchClassesRequest]
+  );
+
+  const fetchMoreClasses = () => {
+    fetchClasses("load more", page);
+  };
 
   const fetchDepartments = useCallback(() => {
     fetchDepartmentsRequest(
@@ -69,7 +86,7 @@ const Index = () => {
   }, [fetchTeachersRequest]);
 
   useEffect(() => {
-    fetchClasses();
+    fetchClasses("init");
     fetchDepartments();
     fetchTeachers();
   }, [fetchClasses, fetchDepartments, fetchTeachers]);
@@ -108,6 +125,8 @@ const Index = () => {
           classes={classes}
           setClasses={setClasses}
           editHandler={editHandler}
+          fetchMoreClasses={fetchMoreClasses}
+          hasMore={hasMore}
         />
       </div>
     </Layout>
